@@ -1,0 +1,309 @@
+.auth-bg {
+  height: 100vh;
+  background: linear-gradient(#eef2ff, #f8fafc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-card {
+  width: 380px;
+  background: #fff;
+  padding: 30px;
+  border-radius: 18px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+.icon {
+  background: #2563eb;
+  color: #fff;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+.password-box {
+  position: relative;
+  margin-top: 15px;
+}
+
+.password-box span {
+  position: absolute;
+  right: 12px;
+  top: 10px;
+  cursor: pointer;
+}
+
+.google-btn {
+  display: block;
+  margin-top: 15px;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 10px;
+}
+/* ===============================
+   GLOBAL WEATHER BACKGROUND
+================================ */
+/* Base container */
+.weather-bg {
+  min-height: 100vh;
+  padding-bottom: 40px;
+  position: relative;
+}
+
+/* Blur overlay */
+.weather-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 0;
+}
+
+/* Ensure content stays above blur */
+.weather-bg > .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===============================
+   WEATHER BACKGROUNDS
+================================ */
+
+.bg-clear {
+  background: url("/static/img/clear.jpg") center / cover no-repeat fixed;
+}
+
+.bg-cloudy {
+  background: url("/static/img/cloudy.jpg") center / cover no-repeat fixed;
+}
+
+.bg-rain {
+  background: url("/static/img/rain.jpg") center / cover no-repeat fixed;
+}
+
+.bg-fog {
+  background: url("/static/img/fog.jpg") center / cover no-repeat fixed;
+}
+
+.bg-snow {
+  background: url("/static/img/snow.jpg") center / cover no-repeat fixed;
+}
+
+.bg-default {
+  background: url("/static/img/weather.jpg") center / cover no-repeat fixed;
+}
+
+/* ===============================
+   DASHBOARD HEADER
+================================ */
+.weather-bg h3 {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* ===============================
+   SEARCH INPUT
+================================ */
+.weather-bg input.form-control {
+  border-radius: 30px;
+  padding: 12px 18px;
+  border: none;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  font-size: 15px;
+}
+
+/* ===============================
+   CURRENT WEATHER CARD
+================================ */
+.weather-box,
+.card.bg-dark {
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.weather-box:hover,
+.card.bg-dark:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+
+/* Temperature text */
+.weather-box h2,
+.card h2 {
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+/* Weather description */
+.weather-box p,
+.card p {
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+/* ===============================
+   HOURLY FORECAST CARDS
+================================ */
+.hour-card {
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 14px 12px;
+  border-radius: 14px;
+  min-width: 95px;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.25s ease;
+}
+
+.hour-card:hover {
+  transform: scale(1.08);
+}
+
+.hour-card p {
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+
+.hour-card b {
+  font-size: 15px;
+}
+
+/* ===============================
+   CHART CONTAINERS
+================================ */
+canvas {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 12px;
+}
+
+/* ===============================
+   SECTION HEADINGS
+================================ */
+.weather-bg h4 {
+  margin-top: 28px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* ===============================
+   ALERT
+================================ */
+.alert-danger {
+  border-radius: 14px;
+  background: rgba(255, 0, 0, 0.15);
+  border: none;
+  color: #fff;
+}
+
+/* ===============================
+   LOGOUT BUTTON
+================================ */
+.btn-light {
+  border-radius: 20px;
+  font-size: 13px;
+  padding: 6px 16px;
+  font-weight: 600;
+}
+/* ===============================
+   CHART CONTAINERS
+================================ */
+.chart-box {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 18px;
+  padding: 18px;
+  margin-top: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* Smaller bar chart */
+.small-chart {
+  max-width: 720px;
+  height: 260px;
+}
+
+/* AI prediction chart */
+.ai-chart {
+  max-width: 720px;
+  height: 220px;
+}
+
+/* Force canvas to respect container */
+.chart-box canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+
+/* SEARCH */
+.search-input {
+  border-radius: 30px;
+  padding: 12px 18px;
+}
+
+/* INFO CARD */
+.info-card {
+  background: rgba(255,255,255,0.95);
+  border-radius: 16px;
+  padding: 20px;
+  height: 100%;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+
+/* CHART CARD */
+.chart-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 16px;
+  height: 320px;   /* 👈 SAME SIZE */
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+
+.chart-card canvas {
+  height: 240px !important;
+}
+
+/* TITLES */
+.chart-title {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+/* ALERT CARD */
+.alert-card {
+  background: rgba(255,255,255,0.9);
+  border-radius: 14px;
+  padding: 14px;
+  font-weight: 500;
+}
+
+/* WEATHER BACKGROUNDS */
+.bg-clear   { background-image: url("/static/img/clear.jpg"); }
+.bg-cloudy { background-image: url("/static/img/cloudy.jpg"); }
+.bg-rain   { background-image: url("/static/img/rain.jpg"); }
+.bg-fog    { background-image: url("/static/img/fog.jpg"); }
+.bg-default{ background-image: url("/static/img/weather.jpg"); }
+
+.weather-bg {
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}

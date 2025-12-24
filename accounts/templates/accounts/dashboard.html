@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="weather-bg {{ bg_class|default:'bg-default' }}">
+  <div class="container py-4">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4 text-white">
+      <h3>🌦 Weather Dashboard</h3>
+      <a href="{% url 'logout' %}" class="btn btn-light btn-sm">Logout</a>
+    </div>
+
+    <!-- SEARCH -->
+    <form method="get" class="mb-4">
+      <input class="form-control search-input"
+             name="city"
+             value="{{ city }}"
+             placeholder="Search city (e.g. Chennai)">
+    </form>
+
+    {% if weather %}
+
+    <!-- ROW 1 -->
+    <div class="row g-4 mb-4">
+      <div class="col-md-4">
+        <div class="info-card text-center">
+          <img src="{% static 'weather-icons/' %}{{ icon }}" width="70"
+               onerror="this.style.display='none'">
+          <h2>{{ weather.temperature }}°C</h2>
+          <p>{{ weather.description }}</p>
+          <small>Humidity {{ weather.humidity }}%</small>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="chart-card">
+          <h6 class="chart-title">Next 24 Hours</h6>
+          <canvas id="hourChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 2 -->
+    <div class="row g-4 mb-4">
+      <div class="col-md-6">
+        <div class="chart-card">
+          <h6 class="chart-title">7-Day Forecast</h6>
+          <canvas id="weekChart"></canvas>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="chart-card">
+          <h6 class="chart-title">🤖 AI Temperature Prediction</h6>
+          <canvas id="aiChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- RAIN ALERT (ML LOGIC) -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="alert-card">
+          ⚠️ <b>Rain Alert:</b>
+          {% if rain_probability > 0.6 %}
+            High chance of rain/storm in the next few hours ({{ rain_probability|floatformat:2 }}).
+          {% else %}
+            No significant rain expected.
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    {% else %}
+      <div class="alert alert-danger mt-4">City not found</div>
+    {% endif %}
+
+  </div>
+</div>
+
+<!-- ================= CHART SCRIPTS ================= -->
+
+{% if chart_data %}
+<script>
+new Chart(document.getElementById("hourChart"), {
+  type: "line",
+  data: {
+    labels: {{ chart_data.labels|safe }},
+    datasets: [
+      {
+        label: "Temperature (°C)",
+        data: {{ chart_data.temps|safe }},
+        borderColor: "#f59e0b",
+        tension: 0.4
+      },
+      {
+        label: "Humidity (%)",
+        data: {{ chart_data.humidity|safe }},
+        borderColor: "#06b6d4",
+        tension: 0.4
+      }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false }
+});
+</script>
+{% endif %}
+
+{% if weekly_chart %}
+<script>
+new Chart(document.getElementById("weekChart"), {
+  type: "bar",
+  data: {
+    labels: {{ weekly_chart.labels|safe }},
+    datasets: [{
+      label: "Avg Temp (°C)",
+      data: {{ weekly_chart.temps|safe }},
+      backgroundColor: "#38bdf8",
+      borderRadius: 8,
+      barThickness: 28
+    }]
+  },
+  options: { responsive: true, maintainAspectRatio: false }
+});
+</script>
+{% endif %}
+
+{% if ai_prediction %}
+<script>
+new Chart(document.getElementById("aiChart"), {
+  type: "line",
+  data: {
+    labels: {{ ai_prediction.labels|safe }},
+    datasets: [{
+      label: "Predicted Temp (AI)",
+      data: {{ ai_prediction.temps|safe }},
+      borderColor: "#ef4444",
+      borderDash: [6,6],
+      tension: 0.4,
+      pointRadius: 4
+    }]
+  },
+  options: { responsive: true, maintainAspectRatio: false }
+});
+</script>
+{% endif %}
+
+{% endblock %}
