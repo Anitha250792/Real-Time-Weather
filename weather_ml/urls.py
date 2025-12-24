@@ -8,7 +8,11 @@ from django.urls import path
 def test_view(request):
     return HttpResponse("Django is running")
 
+def health(request):
+    return HttpResponse("OK")
+
 urlpatterns = [
+    path("health/", health),
     path('admin/', admin.site.urls),
     path("test/", test_view),    path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name="index.html"), name='home'),
