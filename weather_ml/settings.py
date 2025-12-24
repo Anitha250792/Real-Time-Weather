@@ -1,18 +1,20 @@
 from pathlib import Path
 import os
 
-os.environ.setdefault(
-    "OPENWEATHER_API_KEY",
-    "7cc8edf2b9cda4ed14f85e07858f6bcf"
-)
+# Force OpenWeather API key (temporary local fix)
+os.environ["OPENWEATHER_API_KEY"] = "44c7a011850a42cf0a7e645e3e8999a5"
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # --------------------------------------------------
 # SECURITY
 # --------------------------------------------------
-SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-change-this-in-production")
-DEBUG = os.getenv("DEBUG", "False") == "True"
+SECRET_KEY = os.getenv(
+    "SECRET_KEY",
+    "django-insecure-weather-dashboard-dev-key"
+)
+
+DEBUG = os.getenv("DEBUG", "True") == "True"
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
@@ -32,34 +34,22 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
-    # Local apps
     'accounts',
     'core',
-
-    # Google login
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
 ]
-
-SITE_ID = 1
 
 # --------------------------------------------------
 # MIDDLEWARE
 # --------------------------------------------------
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', 
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    # REQUIRED for django-allauth
-    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'weather_ml.urls'
@@ -70,7 +60,7 @@ ROOT_URLCONF = 'weather_ml.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],   # REQUIRED
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -86,7 +76,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'weather_ml.wsgi.application'
 
 # --------------------------------------------------
-# DATABASE (SQLite local, PostgreSQL on Render)
+# DATABASE
 # --------------------------------------------------
 DATABASES = {
     'default': {
@@ -100,22 +90,6 @@ if os.getenv("DATABASE_URL"):
     DATABASES['default'] = dj_database_url.parse(os.getenv("DATABASE_URL"))
 
 # --------------------------------------------------
-# AUTH SETTINGS
-# --------------------------------------------------
-LOGIN_REDIRECT_URL = '/dashboard/'
-LOGOUT_REDIRECT_URL = '/login/'
-ACCOUNT_LOGOUT_REDIRECT_URL = '/login/'
-
-ACCOUNT_LOGIN_METHODS = {"email"}
-ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
-ACCOUNT_EMAIL_VERIFICATION = 'none'
-
-AUTHENTICATION_BACKENDS = (
-    "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend",
-)
-
-# --------------------------------------------------
 # PASSWORD VALIDATION
 # --------------------------------------------------
 AUTH_PASSWORD_VALIDATORS = [
@@ -123,13 +97,14 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # --------------------------------------------------
-# STATIC FILES (RENDER NEEDS THIS)
+# STATIC FILES
 # --------------------------------------------------
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+STATICFILES_STORAGE = (
+    "whitenoise.storage.CompressedManifestStaticFilesStorage"
+)
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-

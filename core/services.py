@@ -2,15 +2,16 @@ import os
 import requests
 from core.utils import weather_icon
 
-OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY")
+OPENWEATHER_API_KEY = os.environ.get("OPENWEATHER_API_KEY")
 BASE_URL = "https://api.openweathermap.org/data/2.5"
 
 
-def get_current_weather(city: str):
-    try:
-        if not OPENWEATHER_API_KEY:
-            raise Exception("Missing OpenWeather API key")
+def get_current_weather(city):
+    if not OPENWEATHER_API_KEY:
+        print("❌ OPENWEATHER_API_KEY not found")
+        return None
 
+    try:
         url = f"{BASE_URL}/weather"
         params = {
             "q": city,
@@ -19,20 +20,21 @@ def get_current_weather(city: str):
         }
 
         res = requests.get(url, params=params, timeout=10)
+
         print("STATUS:", res.status_code)
         print("RAW:", res.text)
 
-        res.raise_for_status()
+        if res.status_code != 200:
+            return None
+
         data = res.json()
 
-        weather_desc = data.get("weather", [{}])[0].get("description", "clear")
-
         return {
-            "city": data.get("name", city),
-            "temperature": round(data.get("main", {}).get("temp", 0), 1),
-            "humidity": data.get("main", {}).get("humidity", 0),
-            "description": weather_desc.title(),
-            "icon": weather_icon(weather_desc),
+            "city": data["name"],
+            "temperature": round(data["main"]["temp"], 1),
+            "humidity": data["main"]["humidity"],
+            "description": data["weather"][0]["description"].title(),
+            "icon": weather_icon(data["weather"][0]["description"]),
         }
 
     except Exception as e:

@@ -11,10 +11,7 @@ def current_weather(request):
 
     weather = get_current_weather(city)
     if not weather:
-        return JsonResponse(
-            {"error": "Could not fetch weather"},
-            status=500
-        )
+        return JsonResponse({"error": "Could not fetch weather"}, status=500)
 
     return JsonResponse(weather)
 
@@ -25,17 +22,14 @@ def predict_weather(request):
 
     weather = get_current_weather(city)
     if not weather:
-        return JsonResponse(
-            {"error": "Could not fetch weather"},
-            status=500
-        )
+        return JsonResponse({"error": "Could not fetch weather"}, status=500)
 
     predicted_temp = predict_temperature(weather)
 
     return JsonResponse({
         "city": weather["city"],
         "current_temperature": weather["temperature"],
-        "predicted_temperature_next": predicted_temp,
+        "predicted_temperature_next": round(predicted_temp, 2),
         "humidity": weather["humidity"],
         "pressure": weather["pressure"],
         "wind_speed": weather["wind_speed"],
