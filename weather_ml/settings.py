@@ -1,6 +1,11 @@
 from pathlib import Path
 import os
 
+os.environ.setdefault(
+    "OPENWEATHER_API_KEY",
+    "7cc8edf2b9cda4ed14f85e07858f6bcf"
+)
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # --------------------------------------------------

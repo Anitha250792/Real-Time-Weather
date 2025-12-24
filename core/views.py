@@ -1,10 +1,8 @@
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
-from django.views.decorators.csrf import csrf_exempt
 
 from .services import get_current_weather
 from .ml_model import predict_temperature
-
 
 
 @require_GET
@@ -21,7 +19,6 @@ def current_weather(request):
     return JsonResponse(weather)
 
 
-@csrf_exempt
 @require_GET
 def predict_weather(request):
     city = request.GET.get("city", "Chennai")
@@ -38,7 +35,7 @@ def predict_weather(request):
     return JsonResponse({
         "city": weather["city"],
         "current_temperature": weather["temperature"],
-        "predicted_temperature_next": round(predicted_temp, 2),
+        "predicted_temperature_next": predicted_temp,
         "humidity": weather["humidity"],
         "pressure": weather["pressure"],
         "wind_speed": weather["wind_speed"],
